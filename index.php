@@ -43,7 +43,7 @@ if (isset($_POST['submit'])) {
                 $query = "UPDATE user SET last_login = NOW() WHERE id={$_SESSION['user_id']} LIMIT 1";
                 $result_set = mysqli_query($connection, $query);
 
-                if(!$result_set){
+                if (!$result_set) {
                     die("db query fail");
                 }
                 //validation
@@ -85,8 +85,7 @@ if (isset($_POST['submit'])) {
                 <label for="exampleInputEmail1">Email address</label>
                 <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
                     placeholder="Enter email" name="email">
-                <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone
-                    else.</small>
+
             </div>
             <div class="form-group">
                 <label for="exampleInputPassword1">Password</label>
@@ -94,8 +93,8 @@ if (isset($_POST['submit'])) {
                     name="password">
             </div>
             <div class="form-check">
-                <input type="checkbox" class="form-check-input" id="exampleCheck1">
-                <label class="form-check-label" for="exampleCheck1">Check me out</label>
+                <input type="checkbox" class="form-check-input" id="exampleCheck1" onclick="myFunction()">
+                <label class="form-check-label" for="exampleCheck1">show password</label>
             </div>
             <?php
             if (isset($errors) && !empty($errors)) {
@@ -110,18 +109,30 @@ if (isset($_POST['submit'])) {
 
             <?php
             if (isset($_GET['logout'])) {
-            echo
-            '<div class="alert alert-dismissible alert-warning">
+                echo
+                    '<div class="alert alert-dismissible alert-warning">
                     <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
                     <h4 class="alert-heading">Successfully Logout!</h4>
                     <p class="mb-0"> come back again.</p>
                   </div>';
-}
-?>
+            }
+            ?>
             <button type="submit" class="btn btn-success" name="submit">Submit</button>
         </form>
     </div>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
+        crossorigin="anonymous"></script>
+    <script>
+        function myFunction() {
+            var x = document.getElementById("exampleInputPassword1");
+            if (x.type === "password") {
+                x.type = "text";
+            } else {
+                x.type = "password";
+            }
+        }
+    </script>
 </body>
 
 </html>
