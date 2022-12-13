@@ -31,6 +31,37 @@ if (isset($_POST['submit'])) {
         $errors[] = 'password name is required';
     }
 
+    $email = mysqli_real_escape_string($connection, $_POST['email']);
+    $query = "SELECT * FROM user WHERE email = '{$email}' ";
+
+    $result_set = mysqli_query($connection, $query);
+
+    if($result_set){
+        if (mysqli_num_rows($result_set)==1) {
+            $errors[] = 'Email address already exists';
+        }
+    }
+
+    if (empty($errors)) {
+    $first_name = mysqli_real_escape_string($connection, $_POST['first_name']);
+    $last_name = mysqli_real_escape_string($connection, $_POST['last_name']);
+    $email = mysqli_real_escape_string($connection, $_POST['email']);
+    $password = mysqli_real_escape_string($connection, $_POST['password']);
+
+        $hashed_pw = sha1($password);
+
+        $query = "INSERT INTO user (first_name,last_name,email,password, is_delete) VALUES ('{$first_name}', '{$last_name}', '{$email}', '{$hashed_pw}', 0)";
+
+        $result = mysqli_query($connection,$query);
+
+        if ($result) {
+            header('Location: users.php?user_added=true');
+        }else {
+            $errors = 'Failed to adnn new record ';
+        }
+        
+    }
+
 }
 
 
@@ -98,9 +129,9 @@ if (isset($_POST['submit'])) {
             if (!empty($errors)) {
 
                 echo "<div class=\"alert alert-dismissible alert-warning\">
-            <button type=\"button\" class=\"btn-close\" data-bs-dismiss=\"alert\"></button>
-            <h4 class=\"alert-heading\">Warning!</h4>
-            <p class=\"mb-0\">";
+                <button type=\"button\" class=\"btn-close\" data-bs-dismiss=\"alert\"></button>
+                <h4 class=\"alert-heading\">Warning!</h4>
+                <p class=\"mb-0\">";
 
                 foreach ($errors as $error) {
                     echo $error;
