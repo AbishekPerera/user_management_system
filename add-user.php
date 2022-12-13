@@ -9,6 +9,30 @@ if (!isset($_SESSION['user_id'])) {
     header('Location: index.php');
 }
 
+?>
+
+<?php
+$errors = array();
+
+if (isset($_POST['submit'])) {
+    if (empty(trim($_POST['first_name']))) {
+        $errors[] = 'First name is required';
+    }
+
+    if (empty(trim($_POST['last_name']))) {
+        $errors[] = 'Last name is required';
+    }
+
+    if (empty(trim($_POST['email']))) {
+        $errors[] = 'Email is required';
+    }
+
+    if (empty(trim($_POST['password']))) {
+        $errors[] = 'password name is required';
+    }
+
+}
+
 
 ?>
 <!DOCTYPE html>
@@ -67,32 +91,53 @@ if (!isset($_SESSION['user_id'])) {
             <h3>Add Users Page</h3>
         </center>
 
+
+
         <div class="adduserform">
-            <form action="inc/adduserAPI.php" method="post">
+            <?php
+            if (!empty($errors)) {
+
+                echo "<div class=\"alert alert-dismissible alert-warning\">
+            <button type=\"button\" class=\"btn-close\" data-bs-dismiss=\"alert\"></button>
+            <h4 class=\"alert-heading\">Warning!</h4>
+            <p class=\"mb-0\">";
+
+                foreach ($errors as $error) {
+                    echo $error;
+                    echo "<br>";
+                }
+                echo "</p>
+            </div>";
+            }
+            ?>
+            <form action="add-user.php" method="post">
                 <div class="mb-3">
-                    <label for="exampleInputEmail1" class="form-label" >First Name:</label>
-                    <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" required>
-                   
+                    <label for="exampleInputEmail1" class="form-label">First Name:</label>
+                    <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
+                        name="first_name" required>
+
                 </div>
 
                 <div class="mb-3">
                     <label for="exampleInputEmail1" class="form-label">Last Name:</label>
-                    <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" required>
-                   
+                    <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
+                        name="last_name" required>
+
                 </div>
 
                 <div class="mb-3">
-                    <label for="exampleInputEmail1" class="form-label">First Name:</label>
-                    <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" required>
-                   
+                    <label for="exampleInputEmail1" class="form-label">Email:</label>
+                    <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
+                        name="email" required>
+
                 </div>
 
                 <div class="mb-3">
                     <label for="exampleInputPassword1" class="form-label">Password</label>
-                    <input type="password" class="form-control" id="exampleInputPassword1" required>
+                    <input type="password" class="form-control" id="exampleInputPassword1" name="password" required>
                 </div>
-                
-                <button type="submit" class="btn btn-primary">Save User</button>
+
+                <button type="submit" class="btn btn-success" name="submit">Save User</button>
             </form>
         </div>
 
@@ -100,7 +145,9 @@ if (!isset($_SESSION['user_id'])) {
     </main>
 
     <!-- JavaScript Bundle with Popper -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
+        crossorigin="anonymous"></script>
 </body>
 
 </html>
